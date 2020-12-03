@@ -5,9 +5,8 @@ GPIO.setwarnings(False)
 GPIO.setup(17,GPIO.OUT)# Red led
 
 
-fever = True
 
-while(fever):
+while(True):
     
     GPIO.output(17,GPIO.HIGH)
     time.sleep(1)
