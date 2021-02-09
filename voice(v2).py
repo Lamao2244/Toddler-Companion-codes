@@ -19,6 +19,13 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(18,GPIO.IN, pull_up_down = GPIO.PUD_UP)
+#control
+GPIO.setup(26, GPIO.OUT, initial = GPIO.LOW)
+GPIO.setup(19, GPIO.OUT, initial = GPIO.LOW)
+GPIO.setup(13, GPIO.OUT, initial = GPIO.LOW)
+GPIO.setup(6, GPIO.OUT, initial = GPIO.LOW)
+GPIO.setup(5, GPIO.OUT, initial = GPIO.LOW)
+
 
 
 #global variable
@@ -179,7 +186,7 @@ def game2():
                 
                
                 
-                if(ans2 == "Ball"):
+                if(ans2 == "Zebra"):
                         
                     talk("Well done! You got it correct")
                     time.sleep(2)
@@ -187,7 +194,15 @@ def game2():
                     pygame.quit()
                     active()
                     
-                elif(ans2 == "ball"):
+                elif(ans2 == "zebra"):
+                        
+                    talk("Well done! You got it correct")
+                    time.sleep(2)
+                    talk("You won all the stages Well done, returning to main menu" )
+                    pygame.quit()
+                    active()
+                    
+                elif(ans2 == "libra"):
                         
                     talk("Well done! You got it correct")
                     time.sleep(2)
@@ -242,9 +257,20 @@ def selmusic():
                 talk("Playing ABC")
                 ABC()
                 exitsong()
-                                       
-                                                                        
-                                                                                    
+                
+            if(opt == "ADC"):
+                                            
+                talk("Playing ABC")
+                ABC()
+                exitsong()
+                
+            if(opt == "ATC"):
+                                            
+                talk("Playing ABC")
+                ABC()
+                exitsong()
+                            
+                                                                                                      
                                                         
             elif(opt == "baby shark"):
                                             
@@ -403,7 +429,11 @@ if __name__ == "__bean__":
             
 def exitsong():
 
-    while(1): 
+    while(1):
+        
+        if ( pygame.mixer.music.get_busy() == False ):
+                
+            active()
         
         if GPIO.input(18) == False:
             
@@ -438,6 +468,7 @@ def idle():
                 try:
                     print("Processing..." , end ='                          \r')
                     key = r.recognize_google(audio1) #google reg
+        
                    
                     
                     if (key == 'hi'): #Keyword!!!
@@ -461,7 +492,7 @@ def idle():
                         print("Could not request results; {0}".format(e))
                         talk("There is no internet connection. Please connect to the internet.", end = '\r')
                     
-      #-------------------End of Keyword section --------------------
+      #-------------------End of Keyword section --------------------#
 
 #active function
 def active():
@@ -543,49 +574,69 @@ def active():
                           
                         #-----Motor Voice commands------
                             
-                        elif(text == "forward"):
+                        elif(text == "forward"): 
                             
                             talk("Moving Forward.")
+                            GPIO.output(13,GPIO.HIGH) #green
+                            time.sleep(0.5)
+                            GPIO.output(13,GPIO.LOW)
+                            
+                        b   elif(text == "Ford"): 
+                            
+                            talk("Moving Forward.")
+                            GPIO.output(13,GPIO.HIGH) #green
+                            time.sleep(0.5)
+                            GPIO.output(13,GPIO.LOW)
+                
+                
                             
                             #Forward motor function
+                            
+                        elif(text == "backward"):
+                            
+                            talk("Moving backwards.")
+                            GPIO.output(6,GPIO.HIGH) #orange
+                            time.sleep(0.5)
+                            GPIO.output(6,GPIO.LOW)
+                            
+                            #reverse motor function
+                            
                             
                         elif(text == "backwards"):
                             
                             talk("Moving backwards.")
+                            GPIO.output(6,GPIO.HIGH) #orange
+                            time.sleep(0.5)
+                            GPIO.output(6,GPIO.LOW)
                             
                             #reverse motor function
                             
                         elif(text == "left"):
                             
                             talk("Moving left.")
+                            GPIO.output(5,GPIO.HIGH) #purple
+                            time.sleep(0.5)
+                            GPIO.output(5,GPIO.LOW)
                             
                             #left motor function
                             
                         elif(text == "right"):
                             
                             talk("Moving right.")
+                            GPIO.output(19,GPIO.HIGH) #yellow
+                            time.sleep(0.5)
+                            GPIO.output(19,GPIO.LOW)
                             
                             #right motor function
                             
-                        elif(text == "stop"):
+                        elif(text == "stop"): 
                             
                             talk("Stopping robot")
+                            GPIO.output(26,GPIO.HIGH) #brown
+                            time.sleep(0.5)
+                            GPIO.output(26,GPIO.LOW)
                             
                             #stop motor function
-                            
-                            
-                        elif(text == "auto"):
-                            
-                            talk("auto mode enabled")
-                            
-                            #auto tracking mode function
-                            
-                            
-                        elif(text == "manual"):
-                            
-                            talk("Manual mode enabled")
-                            
-                            #manual mode function
                             
                         else:
                             talk("Sorry, that is not something i can do yet, or i misheard what you said? ,Say again?")
